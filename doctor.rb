@@ -1,7 +1,6 @@
 require 'sqlite3'
 # Le Wagon gives this DB to you
 DB = SQLite3::Database.new('doctors.sqlite')
-DB.results_as_hash = true
 
 class Doctor
   def initialize(attributes = {})
@@ -12,6 +11,7 @@ class Doctor
   end
 
   def self.all
+    DB.results_as_hash = true
     results =  DB.execute("SELECT * FROM doctors")
     results.map do |result|
       Doctor.new(result)
@@ -35,7 +35,7 @@ end
 
 # Doctor.new(name: whatever_the_user_gave_me_from_the_view)
 # Doctor.new('name' => whatever_the_user_gave_me_from_the_view)
-# p Doctor.all
+p Doctor.all
 # Doctor.find(19)
 bill = Doctor.new(name: 'bill')
 bill.save
