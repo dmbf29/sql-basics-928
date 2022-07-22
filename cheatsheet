@@ -1,0 +1,97 @@
+-- GIVE ME ALL PATIENT NAMES
+SELECT first_name, last_name FROM patients
+
+-- [['koki', 'last'], ['daniel', 'last'], ['carla', 'last']]
+
+
+
+-- SELECT -> SQL keyword asking for some stuff
+-- first_name and last_name ->
+-- FROM -> SQL keyword
+-- patients -> table_name
+
+SELECT column, other_column FROM table_name
+
+-- * -> give me all of hte columns
+SELECT * FROM patients
+-- [[1, 'koki', false] ...]
+
+SELECT * FROM patients
+WHERE age = 21
+-- SELECT * FROM table_name WHERE column = value
+
+SELECT * FROM doctors WHERE specialty LIKE '%Surgery'
+-- SELECT * FROM doctors WHERE specialty ILIKE '%surgery%' -- case insensitive
+-- % -> we can have anything before surgery
+
+SELECT * FROM doctors
+WHERE specialty = 'Cardiac Surgery'
+AND first_name = 'Steve'
+ORDER BY age ASC
+-- OR first_name = 'Alex
+
+SELECT * FROM patients ORDER BY age ASC
+SELECT * FROM table_name ORDER BY column DESC
+
+
+SELECT COUNT(*) FROM doctors
+-- [4]
+SELECT SUM(age) FROM inhabitants
+SELECT AVG(age) FROM inhabitants
+SELECT ROUND(AVG(age), 2) FROM inhabitants
+
+
+SELECT specialty s, COUNT(*) AS c
+FROM doctors
+GROUP BY s
+ORDER BY c DESC
+[
+  ['Cardiac Surgery', 2],
+  ['Brain Surgery', 1],
+  ['Surgery Manager', 1],
+  ['Pediatrics', 1],
+]
+
+
+-- QUESTION: GIVE ME ALL THE INHABITANTS FROM PARIS
+SELECT * FROM inhabitants
+JOIN cities ON cities.id = inhabitants.city_id
+-- JOIN table_name ON table_name.primary_key = table_name.foreign_key
+WHERE cities.name = 'Paris'
+
+SELECT * FROM inhabitants i
+JOIN cities c ON c.id = i.city_id
+WHERE c.name = 'Paris'
+
+
+--GIVE ME ALL THE ADULTS LIVING IN PARIS
+SELECT * FROM inhabitants
+JOIN cities ON cities.id = inhabitants.city_id
+WHERE cities.name = 'Paris'
+AND inhabitants.age >= 18
+
+-- FOR EACH CONSULTATION, GIVE ME ITS DATE, PATIENT AND DOCTOR NAMES
+SELECT consulations.occurs_on, doctors.first_name, doctors.last_name, patients.first_name, patients.last_name
+FROM consulations
+JOIN patients ON patients.id = consulations.patient_id
+JOIN doctors ON doctors.id = consulations.doctor_id
+
+SELECT c.occurs_on, p.first_name, p.last_name, d.first_name, d.last_name
+FROM consultations c
+JOIN patients p ON c.patient_id = p.id
+JOIN doctors d ON c.doctor_id = d.id
+
+
+-- READ
+
+SELECT * FROM doctors;
+SELECT * FROM doctors WHERE id = 3;
+SELECT * FROM doctors WHERE username = 'some_person';
+
+-- Create
+
+INSERT INTO doctors (name, age, specialty)
+VALUES ('Dr. Dolladille', 45, 'Dentist')
+
+INSERT INTO table_name (column_name, column_name, column_name)
+VALUES ('Dr. Dolladille', 45, 'Dentist')
